@@ -103,7 +103,7 @@ async def on_message(message):
         return author_roles[-1].position > bot_roles[-1].position
 
     # List of responses for higher rank users
-    higher_rank_responses = ["bro", "alright bud", "dude", "are you serious", bruh]
+    higher_rank_responses = ["bro", "alright bud", "dude", "are you serious", "bruh"]
 
     if bot_mentioned or has_bad_word:
         try:
