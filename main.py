@@ -27,13 +27,13 @@ BAD_WORD_PATTERNS = [
     r"\bfuck\w*\b", r"\bshit\w*\b", r"\bnigg[ae]rs?\b", r"\bfag+g*o*t*s?\b",
     r"\bbitch(es)?\b", r"\bcunt(s)?\b", r"\bpuss(y|ies)\b", r"\bass(es)?\b",
     r"\bdick(s)?\b", r"\bboob(s|ies)?\b", r"\bcock(s)?\b", r"\btit(s|ties)?\b",
-    r"\bpiss(es|ing)?\b", r"\bsluts?\b", r"\bwhore(s|ing)?\b", r"\bjerk(s|ing)?\b",
+    r"\bpiss(es|ing)?\b", r"\bsluts?\b", r"\bwhore(s|ing)?\b",
     r"\bjob\b", r"\bemployment\b", r"\nniglet(s)?\b", r"\btrann(y|ies)\b", r"\bshit(ter)?\b",
 ]
 
 # === Burrito phrases ===
 BURRITO_PHRASES = [
-    "im eating 46 burritos rn", "you probably arent even a burrito bison GOD",
+    "im eating 46 burritos rn", "you probably arent even a burrito bison PRO",
     "spongebob tackles a 3 foot jelly bean at 3 am central time",
     "bro, your not even a burrito bison", "rest your eyes",
     "BURRITO_PHRASES", "my burritos are two times better than javier's"
