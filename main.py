@@ -28,7 +28,7 @@ BAD_WORD_PATTERNS = [
     r"\bbitch(es)?\b", r"\bcunt(s)?\b", r"\bpuss(y|ies)\b", r"\bass(es)?\b",
     r"\bdick(s)?\b", r"\bboob(s|ies)?\b", r"\bcock(s)?\b", r"\btit(s|ties)?\b",
     r"\bpiss(es|ing)?\b", r"\bsluts?\b", r"\bwhore(s|ing)?\b", r"\bjerk(s|ing)?\b",
-    r"\bjob\b", r"\bemployment\b", r"\nniglet(s)?\b", r"\btrann(y|ies)\b",
+    r"\bjob\b", r"\bemployment\b", r"\nniglet(s)?\b", r"\btrann(y|ies)\b", r"\bshit(ter)?\b",
 ]
 
 # === Burrito phrases ===
