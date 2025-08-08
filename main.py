@@ -71,12 +71,12 @@ CUSS = [
 # === Fuzzify to allow bypass-proof matching ===
 def fuzzify(word):
     replacements = {
-        'a': '(?:[a4@]+)?',
-        'e': '(?:[e3]+)?',
-        'i': '(?:[i1!l|]+)?',
-        'o': '(?:[o0]+)?',
-        'u': '(?:[uµv]+)?',
-        'y': '(?:[y]+)?',
+        'a': '[a4@]+',
+        'e': '[e3]+',
+        'i': '[i1!l|]+',
+        'o': '[o0]+',
+        'u': '[uµv]+',
+        'y': '[y]+',
         'b': '[b8]+',
         'c': '[c\\(\\[]+',
         'g': '[g69q]+',
@@ -95,13 +95,16 @@ def fuzzify(word):
         'm': '[m]+',
         'w': '[wvv]+'
     }
+    # Allow spaces, punctuation, or underscores between ANY letters
+    sep = r'[\W_]*'
     pattern = []
     for char in word:
         if char.lower() in replacements:
             pattern.append(replacements[char.lower()])
         else:
             pattern.append(re.escape(char))
-    return r'\b' + r'\W*'.join(pattern) + r'\b'
+    # No \b so it works in combined words
+    return sep.join(pattern)
 
 # === Generate bypass-proof regex patterns ===
 BAD_WORD_PATTERNS = [fuzzify(word) for word in CUSS]
