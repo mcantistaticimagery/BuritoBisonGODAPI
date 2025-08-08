@@ -23,16 +23,13 @@ intents.guilds = True
 bot = commands.Bot(command_prefix="!", intents=intents)
 
 # === Master bad word list with variants ===
-BAD_WORDS = [
-    # N-word family
+CUSS = [
+    # N-word
     "nigga", "nigger", "nigg", "niga", "ngga", "nga", "niggah", "niguh", "nigguh",
     "niggaz", "niggahs", "n1gga", "n1gger", "niqqa", "niqqer", "n1g", "n1gz",
 
-    # F-word family
+    # F-word 
     "fuck", "fuk", "fuq", "fux", "phuck", "phuk", "phuq", "fukk", "fuc", "fck", "fak", "fock",
-
-    # Sh-word family
-    "shit", "sh1t", "shiit", "shyt", "sh!t", "shatt", "shat", "shite", "shiz", "shi",
 
     # F-slur
     "fag", "faggot", "fagot", "fagg", "faqqot", "faqq", "f@ggot", "feggit", "fegit", "feggot", "phaggot",
@@ -41,13 +38,10 @@ BAD_WORDS = [
     "bitch", "biatch", "bich", "b1tch", "b1ch", "biotch", "beetch",
 
     # C-word
-    "cunt", "kunt", "qunt", "c*nt", "cnt",
+    "cunt", "kunt", "qunt", "cnt",
 
     # P-word
     "pussy", "pussi", "pusy", "pusee", "pusey", "puzzy", "pussee", "puszi",
-
-    # Ass family
-    "ass", "azz", "arse", "azzhole", "asshole", "arsehole", "ashole",
 
     # D-word
     "dick", "dik", "d1ck", "d1k", "dyke", "dykes", "dic",
@@ -61,9 +55,6 @@ BAD_WORDS = [
     # Tits
     "tits", "t1ts", "tit", "titties", "titty", "titez",
 
-    # Piss
-    "piss", "p1ss", "pis", "piz", "pizzz", "pisser", "pissing",
-
     # Slut
     "slut", "sluts", "slutt", "slutty", "sluttie",
 
@@ -75,9 +66,6 @@ BAD_WORDS = [
 
     # Tranny
     "tranny", "trannie", "trany", "tranney", "tr@nny",
-
-    # Shitter
-    "shitter", "sh1tter", "shittar", "shittor"
 ]
 
 # === Fuzzify to allow bypass-proof matching ===
@@ -116,7 +104,7 @@ def fuzzify(word):
     return r'\b' + r'\W*'.join(pattern) + r'\b'
 
 # === Generate bypass-proof regex patterns ===
-BAD_WORD_PATTERNS = [fuzzify(word) for word in BAD_WORDS]
+BAD_WORD_PATTERNS = [fuzzify(word) for word in CUSS]
 
 # === Burrito phrases ===
 BURRITO_PHRASES = [
