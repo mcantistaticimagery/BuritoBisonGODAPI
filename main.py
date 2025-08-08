@@ -22,20 +22,90 @@ intents.members = True
 intents.guilds = True
 bot = commands.Bot(command_prefix="!", intents=intents)
 
-# === Fuzzify function to allow bypass-proof matching ===
+# === Master bad word list with variants ===
+BAD_WORDS = [
+    # N-word family
+    "nigga", "nigger", "nigg", "niga", "ngga", "nga", "niggah", "niguh", "nigguh",
+    "niggaz", "niggahs", "n1gga", "n1gger", "niqqa", "niqqer", "n1g", "n1gz",
+
+    # F-word family
+    "fuck", "fuk", "fuq", "fux", "phuck", "phuk", "phuq", "fukk", "fuc", "fck", "fak", "fock",
+
+    # Sh-word family
+    "shit", "sh1t", "shiit", "shyt", "sh!t", "shatt", "shat", "shite", "shiz", "shi",
+
+    # F-slur
+    "fag", "faggot", "fagot", "fagg", "faqqot", "faqq", "f@ggot", "feggit", "fegit", "feggot", "phaggot",
+
+    # B-word
+    "bitch", "biatch", "bich", "b1tch", "b1ch", "biotch", "beetch",
+
+    # C-word
+    "cunt", "kunt", "qunt", "c*nt", "cnt",
+
+    # P-word
+    "pussy", "pussi", "pusy", "pusee", "pusey", "puzzy", "pussee", "puszi",
+
+    # Ass family
+    "ass", "azz", "arse", "azzhole", "asshole", "arsehole", "ashole",
+
+    # D-word
+    "dick", "dik", "d1ck", "d1k", "dyke", "dykes", "dic",
+
+    # Boobs
+    "boobs", "boob", "boobies", "bewbs", "b00bs", "b00b", "boobie", "boobz",
+
+    # Cock
+    "cock", "c0ck", "cok", "coq", "cawk", "cokc",
+
+    # Tits
+    "tits", "t1ts", "tit", "titties", "titty", "titez",
+
+    # Piss
+    "piss", "p1ss", "pis", "piz", "pizzz", "pisser", "pissing",
+
+    # Slut
+    "slut", "sluts", "slutt", "slutty", "sluttie",
+
+    # Whore
+    "whore", "hore", "h0re", "whoar", "whoore", "hoar", "hoer",
+
+    # Niglet
+    "niglet", "n1glet", "nigglet", "nigglette", "n1gglet",
+
+    # Tranny
+    "tranny", "trannie", "trany", "tranney", "tr@nny",
+
+    # Shitter
+    "shitter", "sh1tter", "shittar", "shittor"
+]
+
+# === Fuzzify to allow bypass-proof matching ===
 def fuzzify(word):
     replacements = {
-        'a': '[a4@]+',
+        'a': '(?:[a4@]+)?',
+        'e': '(?:[e3]+)?',
+        'i': '(?:[i1!l|]+)?',
+        'o': '(?:[o0]+)?',
+        'u': '(?:[uµv]+)?',
+        'y': '(?:[y]+)?',
         'b': '[b8]+',
         'c': '[c\\(\\[]+',
-        'e': '[e3]+',
-        'g': '[g69]+',
-        'i': '[i1!l|]+',
+        'g': '[g69q]+',
+        'k': '[kq]+',
         'l': '[l1!i|]+',
-        'o': '[o0]+',
         's': '[s5$z]+',
         't': '[t7]+',
-        'z': '[z2]+'
+        'z': '[z2]+',
+        'q': '[q9g]+',
+        'f': '[fph]+',
+        'p': '[p]+',
+        'd': '[d]+',
+        'h': '[h]+',
+        'r': '[r]+',
+        'n': '[n]+',
+        'm': '[m]+',
+        'w': '[wvv]+'
     }
     pattern = []
     for char in word:
@@ -43,15 +113,7 @@ def fuzzify(word):
             pattern.append(replacements[char.lower()])
         else:
             pattern.append(re.escape(char))
-    # Allow spaces/punctuation between letters
     return r'\b' + r'\W*'.join(pattern) + r'\b'
-
-# === Base bad words (clean form) ===
-BAD_WORDS = [
-    "fuck", "shit", "nigga", "nigger", "nig", "faggot", "bitch",
-    "cunt", "pussy", "ass", "dick", "boobs", "cock", "tits", "piss",
-    "slut", "whore", "niglet", "tranny", "shitter"
-]
 
 # === Generate bypass-proof regex patterns ===
 BAD_WORD_PATTERNS = [fuzzify(word) for word in BAD_WORDS]
