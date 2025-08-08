@@ -13,7 +13,7 @@ print("discord.py version:", discord.__version__)
 
 # === Setup environment ===
 DISCORD_TOKEN = os.environ['discord']
-WEBHOOK_URL = os.environ.get('webhook')  # Set your webhook URL in your environment
+WEBHOOK_URL = os.environ.get('webhook')
 
 # === Bot setup ===
 intents = discord.Intents.default()
@@ -22,14 +22,39 @@ intents.members = True
 intents.guilds = True
 bot = commands.Bot(command_prefix="!", intents=intents)
 
-# === Bad word patterns ===
-BAD_WORD_PATTERNS = [
-    r"\bfuck\w*\b", r"\bshit\w*\b", r"\bnigg[ae]rs?\b", r"\bfag+g*o*t*s?\b",
-    r"\bbitch(es)?\b", r"\bcunt(s)?\b", r"\bpuss(y|ies)\b", r"\bass(es)?\b",
-    r"\bdick(s)?\b", r"\bboob(s|ies)?\b", r"\bcock(s)?\b", r"\btit(s|ties)?\b",
-    r"\bpiss(es|ing)?\b", r"\bsluts?\b", r"\bwhore(s|ing)?\b",
-    r"\bjob\b", r"\bemployment\b", r"\nniglet(s)?\b", r"\btrann(y|ies)\b", r"\bshit(ter)?\b",
+# === Fuzzify function to allow bypass-proof matching ===
+def fuzzify(word):
+    replacements = {
+        'a': '[a4@]+',
+        'b': '[b8]+',
+        'c': '[c\\(\\[]+',
+        'e': '[e3]+',
+        'g': '[g69]+',
+        'i': '[i1!l|]+',
+        'l': '[l1!i|]+',
+        'o': '[o0]+',
+        's': '[s5$z]+',
+        't': '[t7]+',
+        'z': '[z2]+'
+    }
+    pattern = []
+    for char in word:
+        if char.lower() in replacements:
+            pattern.append(replacements[char.lower()])
+        else:
+            pattern.append(re.escape(char))
+    # Allow spaces/punctuation between letters
+    return r'\b' + r'\W*'.join(pattern) + r'\b'
+
+# === Base bad words (clean form) ===
+BAD_WORDS = [
+    "fuck", "shit", "nigga", "nigger", "nig", "faggot", "bitch",
+    "cunt", "pussy", "ass", "dick", "boobs", "cock", "tits", "piss",
+    "slut", "whore", "niglet", "tranny", "shitter"
 ]
+
+# === Generate bypass-proof regex patterns ===
+BAD_WORD_PATTERNS = [fuzzify(word) for word in BAD_WORDS]
 
 # === Burrito phrases ===
 BURRITO_PHRASES = [
@@ -86,10 +111,10 @@ async def on_message(message):
             else:
                 until = discord.utils.utcnow() + timedelta(seconds=60)
                 await message.author.timeout(until, reason="Used forbidden words or mentioned the bot")
-
-                await message.channel.send(f"{message.author.mention} shut up" if bot_mentioned else f"{message.author.mention} nuh uh")
+                await message.channel.send(
+                    f"{message.author.mention} shut up" if bot_mentioned else f"{message.author.mention} nuh uh"
+                )
                 await message.delete()
-
                 send_log(f"{message.author} was timed out for 60 seconds lol")
         except Exception as e:
             print(f"Timeout error: {e}")
@@ -122,7 +147,7 @@ async def burrito(interaction: discord.Interaction):
     phrase = random.choice(BURRITO_PHRASES)
     await interaction.response.send_message(phrase)
 
-# === Flask keep-alive (Replit/Render) ===
+# === Flask keep-alive ===
 app = Flask('')
 
 @app.route('/')
