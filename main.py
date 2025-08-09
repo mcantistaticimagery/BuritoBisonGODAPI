@@ -115,7 +115,7 @@ CATEGORY_MAP = {
     "tranny": "T-slur", "trannie": "T-slur", "trany": "T-slur", "tranney": "T-slur", "tr@nny": "T-slur",
 
     # Test
-    "verybadcusswordtest": "verybadcusswordtest"
+    "verybadcusswordtest": "verybadcusswordtest test"
 }
 
 # === Fuzzify to allow bypass-proof matching ===
