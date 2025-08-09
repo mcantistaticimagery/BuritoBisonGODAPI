@@ -13,7 +13,8 @@ print("discord.py version:", discord.__version__)
 
 # === Setup environment ===
 DISCORD_TOKEN = os.environ['discord']
-WEBHOOK_URL = os.environ.get('webhook')
+PUBLIC_WEBHOOK_URL = os.environ.get('webhook')           # For public messages
+PRIVATE_WEBHOOK_URL = os.environ.get('private_webhook')  # For mod logs (private)
 
 # === Bot setup ===
 intents = discord.Intents.default()
@@ -68,6 +69,56 @@ CUSS = [
     "tranny", "trannie", "trany", "tranney", "tr@nny",
 ]
 
+# === Safe category mapping for public display ===
+CATEGORY_MAP = {
+    # N-word group
+    "nigga": "N-word", "nigger": "N-word", "nigg": "N-word", "niga": "N-word", "ngga": "N-word", "nga": "N-word",
+    "niggah": "N-word", "niguh": "N-word", "nigguh": "N-word", "niggaz": "N-word", "niggahs": "N-word",
+    "n1gga": "N-word", "n1gger": "N-word", "niqqa": "N-word", "niqqer": "N-word", "n1g": "N-word", "n1gz": "N-word",
+    "niglet": "N-word", "n1glet": "N-word", "nigglet": "N-word", "nigglette": "N-word", "n1gglet": "N-word",
+
+    # F-word group
+    "fuck": "F-word", "fuk": "F-word", "fuq": "F-word", "fux": "F-word", "phuck": "F-word", "phuk": "F-word",
+    "phuq": "F-word", "fukk": "F-word", "fuc": "F-word", "fck": "F-word", "fak": "F-word", "fock": "F-word",
+
+    # F-slur
+    "fag": "F-slur", "faggot": "F-slur", "fagot": "F-slur", "fagg": "F-slur", "faqqot": "F-slur", "faqq": "F-slur",
+    "f@ggot": "F-slur", "feggit": "F-slur", "fegit": "F-slur", "feggot": "F-slur", "phaggot": "F-slur",
+
+    # B-word group
+    "bitch": "B-word", "biatch": "B-word", "bich": "B-word", "b1tch": "B-word", "b1ch": "B-word", "biotch": "B-word",
+    "beetch": "B-word",
+
+    # C-word group
+    "cunt": "C-word", "kunt": "C-word", "qunt": "C-word", "cnt": "C-word",
+
+    # P-word group
+    "pussy": "P-word", "pussi": "P-word", "pusy": "P-word", "pusee": "P-word", "pusey": "P-word", "puzzy": "P-word",
+    "pussee": "P-word", "puszi": "P-word",
+
+    # D-word group
+    "dick": "D-word", "dik": "D-word", "d1ck": "D-word", "d1k": "D-word", "dyke": "D-word", "dykes": "D-word", "dic": "D-word",
+
+    # Boobs
+    "boobs": "Boobs", "boob": "Boobs", "boobies": "Boobs", "bewbs": "Boobs", "b00bs": "Boobs", "b00b": "Boobs",
+    "boobie": "Boobs", "boobz": "Boobs",
+
+    # Cock
+    "cock": "Cock", "c0ck": "Cock", "cok": "Cock", "coq": "Cock", "cawk": "Cock", "cokc": "Cock",
+
+    # Tits
+    "tits": "Tits", "t1ts": "Tits", "tit": "Tits", "titties": "Tits", "titty": "Tits", "titez": "Tits",
+
+    # Slut
+    "slut": "Slut", "sluts": "Slut", "slutt": "Slut", "slutty": "Slut", "sluttie": "Slut",
+
+    # Whore
+    "whore": "Whore", "hore": "Whore", "h0re": "Whore", "whoar": "Whore", "whoore": "Whore", "hoar": "Whore", "hoer": "Whore",
+
+    # Tranny
+    "tranny": "Trans slur", "trannie": "Trans slur", "trany": "Trans slur", "tranney": "Trans slur", "tr@nny": "Trans slur",
+}
+
 # === Fuzzify to allow bypass-proof matching ===
 def fuzzify(word):
     replacements = {
@@ -104,8 +155,12 @@ def fuzzify(word):
             pattern.append(re.escape(char))
     return sep.join(pattern)
 
-# === Generate bypass-proof regex patterns ===
-BAD_WORD_PATTERNS = [fuzzify(word) for word in CUSS]
+# === Generate bypass-proof regex patterns with base/category ===
+BAD_WORD_PATTERNS = []
+for base_word in CUSS:
+    pattern = re.compile(fuzzify(base_word), re.IGNORECASE)
+    category = CATEGORY_MAP.get(base_word, "Offensive word")
+    BAD_WORD_PATTERNS.append((pattern, base_word, category))
 
 # === Burrito phrases ===
 BURRITO_PHRASES = [
@@ -115,21 +170,29 @@ BURRITO_PHRASES = [
     "BURRITO_PHRASES", "my burritos are two times better than javier's"
 ]
 
+# === Send to public webhook ===
+def send_public_log(content):
+    if PUBLIC_WEBHOOK_URL:
+        try:
+            requests.post(PUBLIC_WEBHOOK_URL, json={"content": content})
+        except Exception as e:
+            print(f"Public webhook error: {e}")
+
+# === Send to private webhook ===
+def send_private_log(content):
+    if PRIVATE_WEBHOOK_URL:
+        try:
+            requests.post(PRIVATE_WEBHOOK_URL, json={"content": content})
+        except Exception as e:
+            print(f"Private webhook error: {e}")
+
 # === Helper to match bad words ===
 def matches_bad_word(text):
-    for pattern, original_word in zip(BAD_WORD_PATTERNS, CUSS):
-        match = re.search(pattern, text, re.IGNORECASE)
+    for pattern, base_word, category in BAD_WORD_PATTERNS:
+        match = pattern.search(text)
         if match:
-            return original_word, match.group(0)  # base + actual typed
-    return None, None
-
-# === Send to Webhook ===
-def send_log(content):
-    if WEBHOOK_URL:
-        try:
-            requests.post(WEBHOOK_URL, json={"content": content})
-        except Exception as e:
-            print(f"Webhook error: {e}")
+            return base_word, category, match.group(0)  # base word, category, actual typed
+    return None, None, None
 
 # === Bot ready ===
 @bot.event
@@ -148,7 +211,7 @@ async def on_message(message):
         return
 
     bot_mentioned = bot.user in message.mentions
-    bad_word_base, bad_word_found = matches_bad_word(message.content)
+    bad_word_base, bad_word_category, bad_word_typed = matches_bad_word(message.content)
     has_bad_word = bad_word_base is not None
     bot_member = message.guild.get_member(bot.user.id) if message.guild else None
 
@@ -167,18 +230,28 @@ async def on_message(message):
             else:
                 until = discord.utils.utcnow() + timedelta(seconds=60)
                 await message.author.timeout(until, reason="Used forbidden words or mentioned the bot")
-                await message.channel.send(
-                    f"{message.author.mention} shut up" if bot_mentioned else f"{message.author.mention} nuh uh"
-                )
                 await message.delete()
 
+                # Send public webhook message (safe category)
                 if has_bad_word:
-                    send_log(
-                        f"{message.author} was timed out for 60 seconds for saying **{bad_word_found}** "
-                        f"(matched base word: {bad_word_base})"
+                    send_public_log(
+                        f"{message.author.mention} was timed out for 60 seconds for saying the **{bad_word_category}** lol"
                     )
                 else:
-                    send_log(f"{message.author} was timed out for 60 seconds lol")
+                    send_public_log(
+                        f"{message.author.mention} was timed out for 60 seconds for mentioning the bot lol"
+                    )
+
+                # Send private mod log (exact word, base, category)
+                if has_bad_word:
+                    send_private_log(
+                        f"{message.author} ({message.author.display_name}) was timed out for 60 seconds "
+                        f'for saying "{bad_word_typed}" (matched base word: {bad_word_base}, category: {bad_word_category})'
+                    )
+                else:
+                    send_private_log(
+                        f"{message.author} ({message.author.display_name}) was timed out for 60 seconds for mentioning the bot"
+                    )
         except Exception as e:
             print(f"Timeout error: {e}")
         return
@@ -188,7 +261,7 @@ async def on_message(message):
 # === Ban logging ===
 @bot.event
 async def on_member_ban(guild, user):
-    send_log(f"{user} was banned from {guild.name} lol")
+    send_private_log(f"{user} was banned from {guild.name} lol")
 
 # === Kick logging ===
 @bot.event
@@ -198,7 +271,7 @@ async def on_member_remove(member):
         entry = audit_logs[0]
         if entry.target.id == member.id:
             reason = entry.reason or "for no reason lol"
-            send_log(f"{member} was kicked from {member.guild.name} for \"{reason}\" lol")
+            send_private_log(f"{member} was kicked from {member.guild.name} for \"{reason}\" lol")
 
 # === Slash commands ===
 @bot.tree.command(name="test", description="Test if the bot is working")
