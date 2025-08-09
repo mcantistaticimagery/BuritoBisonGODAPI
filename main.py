@@ -207,54 +207,42 @@ async def on_ready():
 # === Message monitor ===
 @bot.event
 async def on_message(message):
-    if message.author == bot.user or message.author.bot:
-        return
+ if bot_mentioned or has_bad_word:
+    try:
+        if author_higher_role():
+            response = random.choice(higher_rank_responses)
+            await message.channel.send(f"{message.author.mention} {response}")
+        else:
+            until = discord.utils.utcnow() + timedelta(seconds=60)
+            await message.author.timeout(until, reason="Used forbidden words or mentioned the bot")
+            await message.delete()
 
-    bot_mentioned = bot.user in message.mentions
-    bad_word_base, bad_word_category, bad_word_typed = matches_bad_word(message.content)
-    has_bad_word = bad_word_base is not None
-    bot_member = message.guild.get_member(bot.user.id) if message.guild else None
-
-    def author_higher_role():
-        if not bot_member or not message.guild:
-            return False
-        return message.author.top_role.position > bot_member.top_role.position
-
-    higher_rank_responses = ["bro", "alright bud", "dude", "are you serious", "bruh"]
-
-    if bot_mentioned or has_bad_word:
-        try:
-            if author_higher_role():
-                response = random.choice(higher_rank_responses)
-                await message.channel.send(f"{message.author.mention} {response}")
+            # Send public webhook message (safe category)
+            if has_bad_word:
+                send_public_log(
+                    f"{message.author.mention} was timed out for 60 seconds for saying the **{bad_word_category}** lol"
+                )
+                await message.channel.send(f"{message.author.mention} nuh uh")
             else:
-                until = discord.utils.utcnow() + timedelta(seconds=60)
-                await message.author.timeout(until, reason="Used forbidden words or mentioned the bot")
-                await message.delete()
+                send_public_log(
+                    f"{message.author.mention} was timed out for 60 seconds for mentioning the bot lol"
+                )
+                await message.channel.send(f"{message.author.mention} shut up")
 
-                # Send public webhook message (safe category)
-                if has_bad_word:
-                    send_public_log(
-                        f"{message.author.mention} was timed out for 60 seconds for saying the **{bad_word_category}** lol"
-                    )
-                else:
-                    send_public_log(
-                        f"{message.author.mention} was timed out for 60 seconds for mentioning the bot lol"
-                    )
+            # Send private mod log (exact word, base, category)
+            if has_bad_word:
+                send_private_log(
+                    f"{message.author} ({message.author.display_name}) was timed out for 60 seconds "
+                    f'for saying "{bad_word_typed}" (matched base word: {bad_word_base}, category: {bad_word_category})'
+                )
+            else:
+                send_private_log(
+                    f"{message.author} ({message.author.display_name}) was timed out for 60 seconds for mentioning the bot"
+                )
+    except Exception as e:
+        print(f"Timeout error: {e}")
+    return
 
-                # Send private mod log (exact word, base, category)
-                if has_bad_word:
-                    send_private_log(
-                        f"{message.author} ({message.author.display_name}) was timed out for 60 seconds "
-                        f'for saying "{bad_word_typed}" (matched base word: {bad_word_base}, category: {bad_word_category})'
-                    )
-                else:
-                    send_private_log(
-                        f"{message.author} ({message.author.display_name}) was timed out for 60 seconds for mentioning the bot"
-                    )
-        except Exception as e:
-            print(f"Timeout error: {e}")
-        return
 
     await bot.process_commands(message)
 
