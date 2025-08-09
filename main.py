@@ -27,7 +27,7 @@ bot = commands.Bot(command_prefix="!", intents=intents)
 CUSS = [
     # N-word
     "nigga", "nigger", "nigg", "niga", "ngga", "nga", "niggah", "niguh", "nigguh",
-    "niggaz", "niggahs", "n1gga", "n1gger", "niqqa", "niqqer", "n1g", "n1gz",
+    "niggaz", "niggahs", "n1gga", "n1gger", "niqqa", "niqqer", "n1g", "n1gz", "niglet", "n1glet", "nigglet", "nigglette", "n1gglet",
 
     # F-word 
     "fuck", "fuk", "fuq", "fux", "phuck", "phuk", "phuq", "fukk", "fuc", "fck", "fak", "fock",
@@ -59,14 +59,14 @@ CUSS = [
     # Slut
     "slut", "sluts", "slutt", "slutty", "sluttie",
 
-    # Whore
+    # W - word
     "whore", "hore", "h0re", "whoar", "whoore", "hoar", "hoer",
-
-    # Niglet
-    "niglet", "n1glet", "nigglet", "nigglette", "n1gglet",
-
+    
     # Tranny
     "tranny", "trannie", "trany", "tranney", "tr@nny",
+
+    # Test
+    "verybadcusswordtest"
 ]
 
 # === Safe category mapping for public display ===
@@ -99,24 +99,23 @@ CATEGORY_MAP = {
     # D-word group
     "dick": "D-word", "dik": "D-word", "d1ck": "D-word", "d1k": "D-word", "dyke": "D-word", "dykes": "D-word", "dic": "D-word",
 
-    # Boobs
-    "boobs": "Boobs", "boob": "Boobs", "boobies": "Boobs", "bewbs": "Boobs", "b00bs": "Boobs", "b00b": "Boobs",
-    "boobie": "Boobs", "boobz": "Boobs",
-
-    # Cock
-    "cock": "Cock", "c0ck": "Cock", "cok": "Cock", "coq": "Cock", "cawk": "Cock", "cokc": "Cock",
+    # PP C-word
+    "cock": "PP C-word", "c0ck": "PP C-word", "cok": "PP C-word", "coq": "PP C-word", "cawk": "PP C-word", "cokc": "PP C-word",
 
     # Tits
-    "tits": "Tits", "t1ts": "Tits", "tit": "Tits", "titties": "Tits", "titty": "Tits", "titez": "Tits",
+    "tits": "T - word", "t1ts": "Tits", "tit": "Tits", "titties": "Tits", "titty": "Tits", "titez": "Tits",
 
     # Slut
-    "slut": "Slut", "sluts": "Slut", "slutt": "Slut", "slutty": "Slut", "sluttie": "Slut",
+    "slut": "Sl-word", "sluts": "Sl-word", "slutt": "Sl-word", "slutty": "Sl-word", "sluttie": "Sl-word",
 
-    # Whore
-    "whore": "Whore", "hore": "Whore", "h0re": "Whore", "whoar": "Whore", "whoore": "Whore", "hoar": "Whore", "hoer": "Whore",
+    # W-word
+    "whore": "W-word", "hore": "W-word", "h0re": "W-word", "whoar": "W-word", "whoore": "W-word",
 
-    # Tranny
-    "tranny": "Trans slur", "trannie": "Trans slur", "trany": "Trans slur", "tranney": "Trans slur", "tr@nny": "Trans slur",
+    # T-slur
+    "tranny": "T-slur", "trannie": "T-slur", "trany": "T-slur", "tranney": "T-slur", "tr@nny": "T-slur",
+
+    # Test
+    "verybadcusswordtest": "Test Cuss Word"
 }
 
 # === Fuzzify to allow bypass-proof matching ===
