@@ -95,7 +95,6 @@ def fuzzify(word):
         'm': '[m]+',
         'w': '[wvv]+'
     }
-    # Allow spaces, punctuation, or underscores between ANY letters
     sep = r'[\W_]*'
     pattern = []
     for char in word:
@@ -103,7 +102,6 @@ def fuzzify(word):
             pattern.append(replacements[char.lower()])
         else:
             pattern.append(re.escape(char))
-    # No \b so it works in combined words
     return sep.join(pattern)
 
 # === Generate bypass-proof regex patterns ===
@@ -119,7 +117,11 @@ BURRITO_PHRASES = [
 
 # === Helper to match bad words ===
 def matches_bad_word(text):
-    return any(re.search(pattern, text, re.IGNORECASE) for pattern in BAD_WORD_PATTERNS)
+    for pattern, original_word in zip(BAD_WORD_PATTERNS, CUSS):
+        match = re.search(pattern, text, re.IGNORECASE)
+        if match:
+            return original_word, match.group(0)  # base + actual typed
+    return None, None
 
 # === Send to Webhook ===
 def send_log(content):
@@ -146,7 +148,8 @@ async def on_message(message):
         return
 
     bot_mentioned = bot.user in message.mentions
-    has_bad_word = matches_bad_word(message.content)
+    bad_word_base, bad_word_found = matches_bad_word(message.content)
+    has_bad_word = bad_word_base is not None
     bot_member = message.guild.get_member(bot.user.id) if message.guild else None
 
     def author_higher_role():
@@ -168,7 +171,14 @@ async def on_message(message):
                     f"{message.author.mention} shut up" if bot_mentioned else f"{message.author.mention} nuh uh"
                 )
                 await message.delete()
-                send_log(f"{message.author} was timed out for 60 seconds lol")
+
+                if has_bad_word:
+                    send_log(
+                        f"{message.author} was timed out for 60 seconds for saying **{bad_word_found}** "
+                        f"(matched base word: {bad_word_base})"
+                    )
+                else:
+                    send_log(f"{message.author} was timed out for 60 seconds lol")
         except Exception as e:
             print(f"Timeout error: {e}")
         return
