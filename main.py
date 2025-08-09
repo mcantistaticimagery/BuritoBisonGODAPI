@@ -167,7 +167,7 @@ BURRITO_PHRASES = [
     "im eating 46 burritos rn", "you probably arent even a burrito bison PRO",
     "spongebob tackles a 3 foot jelly bean at 3 am central time",
     "bro, your not even a burrito bison", "rest your eyes",
-    "BURRITO_PHRASES", "my burritos are two times better than javier's"
+    "BURRITO_PHRASES", "my burritos are two times better than javier's", "what do you is whant", "your not friendly 😡"
 ]
 
 # === Send to public webhook ===
