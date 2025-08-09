@@ -29,9 +29,6 @@ CUSS = [
     "nigga", "nigger", "nigg", "niga", "ngga", "nga", "niggah", "niguh", "nigguh",
     "niggaz", "niggahs", "n1gga", "n1gger", "niqqa", "niqqer", "n1g", "n1gz", "niglet", "n1glet", "nigglet", "nigglette", "n1gglet",
 
-    # F-word 
-    "fuck", "fuk", "fuq", "fux", "phuck", "phuk", "phuq", "fukk", "fuc", "fck", "fak", "fock",
-
     # F-slur
     "fag", "faggot", "fagot", "fagg", "faqqot", "faqq", "f@ggot", "feggit", "fegit", "feggot", "phaggot",
 
@@ -43,9 +40,6 @@ CUSS = [
 
     # P-word
     "pussy", "pussi", "pusy", "pusee", "pusey", "puzzy", "pussee", "puszi",
-
-    # D-word
-    "dick", "dik", "d1ck", "d1k", "dyke", "dykes", "dic",
 
     # Boobs
     "boobs", "boob", "boobies", "bewbs", "b00bs", "b00b", "boobie", "boobz",
