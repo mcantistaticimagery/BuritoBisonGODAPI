@@ -71,10 +71,6 @@ CATEGORY_MAP = {
     "n1gga": "N-word", "n1gger": "N-word", "niqqa": "N-word", "niqqer": "N-word", "n1g": "N-word", "n1gz": "N-word",
     "niglet": "N-word", "n1glet": "N-word", "nigglet": "N-word", "nigglette": "N-word", "n1gglet": "N-word",
 
-    # F-word group
-    "fuck": "F-word", "fuk": "F-word", "fuq": "F-word", "fux": "F-word", "phuck": "F-word", "phuk": "F-word",
-    "phuq": "F-word", "fukk": "F-word", "fuc": "F-word", "fck": "F-word", "fak": "F-word", "fock": "F-word",
-
     # F-slur
     "fag": "F-slur", "faggot": "F-slur", "fagot": "F-slur", "fagg": "F-slur", "faqqot": "F-slur", "faqq": "F-slur",
     "f@ggot": "F-slur", "feggit": "F-slur", "fegit": "F-slur", "feggot": "F-slur", "phaggot": "F-slur",
@@ -89,9 +85,6 @@ CATEGORY_MAP = {
     # P-word group
     "pussy": "P-word", "pussi": "P-word", "pusy": "P-word", "pusee": "P-word", "pusey": "P-word", "puzzy": "P-word",
     "pussee": "P-word", "puszi": "P-word",
-
-    # D-word group
-    "dick": "D-word", "dik": "D-word", "d1ck": "D-word", "d1k": "D-word", "dyke": "D-word", "dykes": "D-word", "dic": "D-word",
 
     # PP C-word
     "cock": "PP C-word", "c0ck": "PP C-word", "cok": "PP C-word", "coq": "PP C-word", "cawk": "PP C-word", "cokc": "PP C-word",
