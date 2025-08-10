@@ -37,9 +37,6 @@ CUSS = [
 
     # C-word
     "cunt", "kunt", "qunt", "cnt",
-
-    # Slut
-    "slut", "sluts", "slutt", "slutty", "sluttie",
     
     # Tranny
     "tranny", "trannie", "trany", "tranney", "tr@nny",
@@ -66,22 +63,6 @@ CATEGORY_MAP = {
 
     # C-word group
     "cunt": "C-word", "kunt": "C-word", "qunt": "C-word", "cnt": "C-word",
-
-    # P-word group
-    "pussy": "P-word", "pussi": "P-word", "pusy": "P-word", "pusee": "P-word", "pusey": "P-word", "puzzy": "P-word",
-    "pussee": "P-word", "puszi": "P-word",
-
-    # PP C-word
-    "cock": "PP C-word", "c0ck": "PP C-word", "cok": "PP C-word", "coq": "PP C-word", "cawk": "PP C-word", "cokc": "PP C-word",
-
-    # Tits
-    "tits": "T - word", "t1ts": "T - word", "tit": "T - word", "titties": "T - word", "titty": "T - word", "titez": "T - word",
-
-    # Slut
-    "slut": "Sl-word", "sluts": "Sl-word", "slutt": "Sl-word", "slutty": "Sl-word", "sluttie": "Sl-word",
-
-    # W-word
-    "whore": "W-word", "hore": "W-word", "h0re": "W-word", "whoar": "W-word", "whoore": "W-word",
 
     # T-slur
     "tranny": "T-slur", "trannie": "T-slur", "trany": "T-slur", "tranney": "T-slur", "tr@nny": "T-slur",
