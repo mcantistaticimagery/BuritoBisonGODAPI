@@ -38,20 +38,8 @@ CUSS = [
     # C-word
     "cunt", "kunt", "qunt", "cnt",
 
-    # P-word
-    "pussy", "pussi", "pusy", "pusee", "pusey", "puzzy", "pussee", "puszi",
-
-    # Boobs
-    "boobs", "boob", "boobies", "bewbs", "b00bs", "b00b", "boobie", "boobz",
-
-    # Cock
-    "cock", "c0ck", "cok", "coq", "cawk", "cokc",
-
     # Slut
     "slut", "sluts", "slutt", "slutty", "sluttie",
-
-    # W - word
-    "whore", "hore", "h0re", "whoar", "whoore", "hoar", "hoer",
     
     # Tranny
     "tranny", "trannie", "trany", "tranney", "tr@nny",
