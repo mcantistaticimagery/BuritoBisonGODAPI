@@ -34,9 +34,6 @@ CUSS = [
 
     # B-word
     "bitch", "biatch", "bich", "b1tch", "b1ch", "biotch", "beetch",
-
-    # C-word
-    "cunt", "kunt", "qunt", "cnt",
     
     # Tranny
     "tranny", "trannie", "trany", "tranney", "tr@nny",
@@ -60,9 +57,6 @@ CATEGORY_MAP = {
     # B-word group
     "bitch": "B-word", "biatch": "B-word", "bich": "B-word", "b1tch": "B-word", "b1ch": "B-word", "biotch": "B-word",
     "beetch": "B-word",
-
-    # C-word group
-    "cunt": "C-word", "kunt": "C-word", "qunt": "C-word", "cnt": "C-word",
 
     # T-slur
     "tranny": "T-slur", "trannie": "T-slur", "trany": "T-slur", "tranney": "T-slur", "tr@nny": "T-slur",
