@@ -47,9 +47,6 @@ CUSS = [
     # Cock
     "cock", "c0ck", "cok", "coq", "cawk", "cokc",
 
-    # Tits
-    "tits", "t1ts", "tit", "titties", "titty", "titez",
-
     # Slut
     "slut", "sluts", "slutt", "slutty", "sluttie",
 
