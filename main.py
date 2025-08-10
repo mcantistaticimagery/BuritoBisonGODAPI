@@ -90,7 +90,7 @@ CATEGORY_MAP = {
     "cock": "PP C-word", "c0ck": "PP C-word", "cok": "PP C-word", "coq": "PP C-word", "cawk": "PP C-word", "cokc": "PP C-word",
 
     # Tits
-    "tits": "T - word", "t1ts": "Tits", "tit": "Tits", "titties": "Tits", "titty": "Tits", "titez": "Tits",
+    "tits": "T - word", "t1ts": "T - word", "tit": "T - word", "titties": "T - word", "titty": "T - word", "titez": "T - word",
 
     # Slut
     "slut": "Sl-word", "sluts": "Sl-word", "slutt": "Sl-word", "slutty": "Sl-word", "sluttie": "Sl-word",
